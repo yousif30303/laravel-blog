@@ -24,3 +24,6 @@ Route::get('/hello', function () {
 Route::get('/test2', function () {
     return 'Hello from test2';
 });
+Route::get('/test', function () {
+    return 'Hello from test1';
+});
