@@ -61,3 +61,11 @@ jobs:
 
       - name: Lint code
         run: ./vendor/bin/phpcs --standard=PSR12 app routes tests
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          curl -X POST -H "Content-type: application/json" \
+          --data "{\"text\":\"❌ CI Failed on yousif30303/laravel-blog @ refs/heads/feature/github-check-discovery-modify8\"}" \
+          https://hooks.slack.com/services/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
+
