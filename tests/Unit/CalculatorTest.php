@@ -18,7 +18,7 @@ class CalculatorTest extends TestCase
 
     public function test_add()
     {
-        $this->assertEquals(10, $this->calculator->add(2, 3));
+        $this->assertEquals(5, $this->calculator->add(2, 3));
     }
 
     public function test_subtract()
