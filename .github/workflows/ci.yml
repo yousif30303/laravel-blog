@@ -66,6 +66,6 @@ jobs:
         if: failure()
         run: |
           curl -X POST -H "Content-type: application/json" \
-          --data "{\"text\":\"❌ CI Failed on yousif30303/laravel-blog @ refs/heads/feature/github-check-discovery-modify8\"}" \
+          --data "{\"text\":\" CI Failed on yousif30303/laravel-blog @ refs/heads/feature/github-check-discovery-modify8\"}" \
           ${{ secrets.SLACK_WEBHOOK }}
 
