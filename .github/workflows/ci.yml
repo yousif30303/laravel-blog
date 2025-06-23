@@ -10,7 +10,8 @@ on:
       - develop
 
 jobs:
-  test:
+  laravel-ci:
+    name: Laravel Tests
     runs-on: ubuntu-latest
 
     services:
