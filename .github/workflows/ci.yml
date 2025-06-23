@@ -69,3 +69,14 @@ jobs:
           --data "{\"text\":\" CI Failed on yousif30303/laravel-blog @ refs/heads/feature/github-check-discovery-modify8\"}" \
           ${{ secrets.SLACK_WEBHOOK }}
 
+      - name: Generate test coverage report
+        run: ./vendor/bin/phpunit --coverage-clover=coverage.xml
+
+      - name: SonarCloud Analysis
+        uses: sonarsource/sonarcloud-github-action@v2
+        with:
+          projectBaseDir: .
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_KEY: yousif30303_laravel-blog
+          SONAR_ORGANIZATION: yousif30303
