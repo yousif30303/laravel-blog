@@ -75,7 +75,7 @@ jobs:
         run: ./vendor/bin/phpunit --coverage-clover=coverage.xml
 
       - name: SonarCloud Analysis
-        uses: sonarsource/sonarcloud-github-action@v2
+        uses: sonarsource/sonarcloud-quality-gate-action@v1.1.0
         with:
           projectBaseDir: .
         env:
