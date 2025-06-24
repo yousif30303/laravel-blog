@@ -74,11 +74,9 @@ jobs:
       - name: Generate test coverage report
         run: ./vendor/bin/phpunit --coverage-clover=coverage.xml
 
-      - name: SonarCloud Analysis
+      - name: SonarCloud Quality Gate Check
         uses: SonarSource/sonarcloud-quality-gate-action@v1.1.0
         with:
-          projectBaseDir: .
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECT_KEY: yousif30303_laravel-blog
-          SONAR_ORGANIZATION: yousif30303
+          projectKey: yousif30303_laravel-blog
+          organization: yousif30303
+          sonar_token: ${{ secrets.SONAR_TOKEN }}
