@@ -74,12 +74,13 @@ jobs:
       - name: Generate test coverage report
         run: ./vendor/bin/phpunit --coverage-clover=coverage.xml
 
-      - name: Run SonarCloud Analysis
-        uses: SonarSource/sonarcloud-github-action@master
+      - name: SonarCloud Analysis (new action)
+        uses: SonarSource/sonarqube-scan-action@v2
         with:
           projectBaseDir: .
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
           SONAR_PROJECT_KEY: yousif30303_laravel-blog
           SONAR_ORGANIZATION: yousif30303
 
@@ -105,4 +106,5 @@ jobs:
           done
           echo "❗ Timed out waiting for Quality Gate result."
           exit 1
+
 
