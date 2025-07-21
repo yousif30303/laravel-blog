@@ -6,6 +6,9 @@ on:
       - main
       - develop
       - feature/*
+    tags:
+      - '*'           # triggers for all tags like 1.0, v1.0, v2.3.1 etc.
+
   pull_request:
     branches:
       - main
