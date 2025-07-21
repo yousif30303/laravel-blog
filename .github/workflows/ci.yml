@@ -104,6 +104,7 @@ jobs:
               exit 1
             fi
           done
-          echo " Timed out waiting for Quality Gate result."
+          echo "❗ Timed out waiting for Quality Gate result."
           exit 1
+
 
