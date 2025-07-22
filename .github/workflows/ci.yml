@@ -9,10 +9,6 @@ on:
     tags:
       - '*'           # triggers for all tags like 1.0, v1.0, v2.3.1 etc.
 
-    permissions:
-      contents: write  # 🟢 This is required for pushing tags
-
-
   pull_request:
     branches:
       - main
@@ -40,8 +36,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          persist-credentials: false  # ⛔ Disable GitHub bot override
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
@@ -119,27 +113,18 @@ jobs:
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-    
-      - name: Create and Push Git Tag
-        env:
-          VERSION: ${{ steps.set_version.outputs.VERSION }}
-          TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      - name: Set Docker Image Tag (from tag or branch)
         run: |
-          echo "VERSION: $VERSION"
-          echo "TOKEN length: ${#TOKEN}"
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            echo "IMAGE_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          else
+            echo "IMAGE_TAG=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+          fi
 
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+      - name: Build Docker Image
+        run: docker build -t yousif30303/laravel-app:${{ env.IMAGE_TAG }} .
 
-          git fetch --all --tags
-          git tag $VERSION
-
-          # 🚨 Remove and re-add the origin with the token-based auth
-          git remote remove origin
-          git remote add origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
-
-          git push origin $VERSION
-
-        
+      - name: Push Docker Image
+        run: docker push yousif30303/laravel-app:${{ env.IMAGE_TAG }}
 
 
