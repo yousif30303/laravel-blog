@@ -118,6 +118,10 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
     
+      - name: Set Version
+        id: set_version
+        run: echo "VERSION=$(date +'%Y.%m.%d')-build-${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+
       - name: Create and Push Git Tag
         env:
           VERSION: ${{ steps.set_version.outputs.VERSION }}
@@ -127,16 +131,10 @@ jobs:
           echo "TOKEN length: ${#TOKEN}"
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
+          git fetch --all --tags
           git tag $VERSION
           git remote set-url origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
           git push origin $VERSION
-
-
-      - name: Build Docker Image
-        run: docker build -t yousif30303/laravel-app:${{ env.IMAGE_TAG }} .
-
-      - name: Push Docker Image
-        run: docker push yousif30303/laravel-app:${{ env.IMAGE_TAG }}
 
         
 
