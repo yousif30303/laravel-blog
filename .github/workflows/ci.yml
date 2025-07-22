@@ -40,6 +40,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false  # ⛔ Disable GitHub bot override
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
