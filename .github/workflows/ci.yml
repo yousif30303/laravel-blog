@@ -117,11 +117,14 @@ jobs:
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Push Git Tag
+    
+      - name: Create and Push Git Tag
         env:
-          TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           VERSION: ${{ steps.set_version.outputs.VERSION }}
+          TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
+          echo "VERSION: $VERSION"
+          echo "TOKEN length: ${#TOKEN}"
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git tag $VERSION
@@ -134,5 +137,7 @@ jobs:
 
       - name: Push Docker Image
         run: docker push yousif30303/laravel-app:${{ env.IMAGE_TAG }}
+
+        
 
 
