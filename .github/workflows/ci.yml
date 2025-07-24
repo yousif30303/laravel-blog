@@ -127,4 +127,10 @@ jobs:
       - name: Push Docker Image
         run: docker push yousif30303/laravel-app:${{ env.IMAGE_TAG }}
 
+      - name: Run Laravel Dusk E2E Tests
+        run: |
+          php artisan serve --no-reload --quiet &
+          php artisan dusk
+
+
 
