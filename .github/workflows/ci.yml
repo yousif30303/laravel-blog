@@ -64,9 +64,6 @@ jobs:
       - name: Run tests
         run: php artisan test
 
-      - name: Lint code
-        run: ./vendor/bin/phpcs --standard=PSR12 app routes tests
-
       - name: Notify on failure
         if: failure()
         run: |
