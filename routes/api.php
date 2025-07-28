@@ -21,3 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/api', function () {
     return 'api';
 });
+
+Route::get('/health', function () {
+    return response()->json(['status' => 'ok'], 200);
+});
