@@ -127,6 +127,10 @@ jobs:
       - name: Run Integration Tests
         run: ./vendor/bin/phpunit --testsuite=Integration
 
+      - name: Install Enlightn Security Checker
+        run: composer require --dev enlightn/security-checker
+
+
 
 
 
