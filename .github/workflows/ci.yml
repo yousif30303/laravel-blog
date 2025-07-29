@@ -130,8 +130,8 @@ jobs:
       - name: Install Enlightn Security Checker
         run: composer require --dev enlightn/security-checker
 
-      - name: 🔐 Run Security Scan for Composer Vulnerabilities
-        run: php artisan security:check
+      - name: 🔐 Run Security Scan
+        run: ./vendor/bin/security-checker check composer.lock
 
 
 
