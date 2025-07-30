@@ -118,12 +118,6 @@ jobs:
             echo "IMAGE_TAG=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
           fi
 
-      - name: Install Enlightn Security Checker
-        run: composer require --dev enlightn/security-checker
-
-      - name: Run Security Scan
-        run: ./vendor/bin/security-checker security:check composer.lock
-
       - name: Build Docker Image
         if: success()
         run: docker build -t yousif30303/laravel-app:${{ env.IMAGE_TAG }} .
@@ -140,6 +134,23 @@ jobs:
       - name: Run Security Scan
         run: ./vendor/bin/security-checker security:check composer.lock
 
+      - name: Run Seeder
+        run: php artisan db:seed --force
+
+      - name: Serve Laravel app
+        run: php artisan serve --host=127.0.0.1 --port=8000 &
+
+      - name: Install k6
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gnupg software-properties-common
+          curl -fsSL https://dl.k6.io/key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/k6-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install -y k6
+
+      - name: Run k6 Load Test
+        run: k6 run tests/load/load-test.js
 
 
 
