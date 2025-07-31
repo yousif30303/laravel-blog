@@ -152,6 +152,14 @@ jobs:
       - name: Run k6 Load Test
         run: k6 run tests/Load/load-test.js
 
+      - name: Save current tag as previous-tag.txt
+        run: |
+          echo "${{ env.IMAGE_TAG }}" > previous-tag.txt
 
+      - name: Upload previous tag as GitHub artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: previous-tag
+          path: previous-tag.txt
 
 
